@@ -10,7 +10,7 @@ const InteractiveMap = () => {
   useEffect(() => {
     const fetchMonastery = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/v1/monasteries/${id}`);
+        const res = await fetch(`https://your-backend.onrender.com/api/v1/monasteries/${id}`);
         const data = await res.json();
         setMonastery(data.data || null);
       } catch (err) {
