@@ -235,7 +235,7 @@ const Home = () =>  {
       </section>
 
       {/* Testimonials Section */}
-      {/* <Testimonials/> */}
+      { <Testimonials/> }
 
       {/* Photography Gallery */}
       <section id="serenity" className="py-24 px-6 md:px-12 bg-gradient-to-br from-gray-900 to-black">
