@@ -1,5 +1,5 @@
 import axios from 'axios'
 
 export const axiosInstance = axios.create({
-    baseURL: "https://smartindiahackathon.onrender.com",
+    baseURL: "https://smartindiahackathonbackend.onrender.com",
 });
