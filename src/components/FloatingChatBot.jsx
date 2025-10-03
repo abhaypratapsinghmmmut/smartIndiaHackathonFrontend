@@ -14,7 +14,6 @@ const FloatingChatbot = () => {
      const [isTyping, setIsTyping] = useState(false);
      const chatEndRef = useRef(null);
    
-     // Auto scroll
      useEffect(() => {
        chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
      }, [messages]);
@@ -26,7 +25,6 @@ const FloatingChatbot = () => {
        setIsTyping(true);
    
        try {
-         // const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
    
          const res = await fetch(`http://localhost:3000/api/chatbot`, {
            method: "POST",
@@ -62,7 +60,6 @@ const FloatingChatbot = () => {
 
   return (
     <>
-      {/* Floating Chat Window */}
       {open && (
         <div className="fixed bottom-4 
     w-[98%] sm:w-[400px] max-w-md
@@ -148,7 +145,6 @@ const FloatingChatbot = () => {
         </div>
       )}
 
-      {/* Floating Button */}
       {!open && (
         <button
           onClick={() => setOpen(true)}
@@ -162,56 +158,3 @@ const FloatingChatbot = () => {
 };
 
 export default FloatingChatbot;
-
-
-
-
-
-
-
-
-
-// import React, { useState } from 'react'
-// import {  MessageCircle, X } from "lucide-react";
-
-// const FloatingChatBot = () => {
-//     const [isChatOpen, setIsChatOpen] = useState(false);
-    
-//   return (
-//      <div className="fixed bottom-6 right-6 z-50">
-//         {!isChatOpen ? (
-//           <button
-//             onClick={() => setIsChatOpen(true)}
-//             className="bg-green-500 p-4 rounded-full shadow-lg hover:bg-green-600 transition"
-//           >
-//             <MessageCircle size={28} className="text-white" />
-//           </button>
-//         ) : (
-//           <div className="bg-gray-900 w-80 h-96 rounded-2xl shadow-2xl flex flex-col">
-//             <div className="flex justify-between items-center px-4 py-2 bg-gray-800 rounded-t-2xl border-b border-gray-700">
-//               <h4 className="text-white font-semibold">LamaBot AI</h4>
-//               <button onClick={() => setIsChatOpen(false)} className="text-gray-400 hover:text-white">
-//                 <X size={20} />
-//               </button>
-//             </div>
-//             <div className="flex-1 p-4 overflow-y-auto text-gray-300">
-//               <p className="text-sm text-gray-400 mb-2">👋 Hello! How can I help you with your monastery journey?</p>
-//               {/* Chat messages go here */}
-//             </div>
-//             <div className="p-3 border-t border-gray-700 flex">
-//               <input
-//                 type="text"
-//                 placeholder="Type a message..."
-//                 className="flex-1 px-3 py-2 rounded-lg bg-gray-800 text-white text-sm focus:outline-none"
-//               />
-//               <button className="ml-2 bg-green-500 px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600">
-//                 Send
-//               </button>
-//             </div>
-//           </div>
-//         )}
-//       </div>
-//   )
-// }
-
-// export default FloatingChatBot

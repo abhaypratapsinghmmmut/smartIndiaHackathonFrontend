@@ -19,7 +19,6 @@ const Experience = () => {
     <section id="experiences"
            className="relative py-28 px-6 md:px-12 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800">
      <div className="max-w-7xl mx-auto relative z-10">
-    {/* Heading */}
     <div className="text-center mb-20">
       <h2 className="text-5xl md:text-6xl font-extrabold mb-6 
         bg-gradient-to-r from-emerald-300 via-green-400 to-teal-300 
@@ -31,7 +30,6 @@ const Experience = () => {
       </p>
     </div>
 
-    {/* Experience Cards */}
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
       {experiences.map((exp, i) => (
         <div
@@ -42,7 +40,7 @@ const Experience = () => {
           hover:border-emerald-400/60 hover:shadow-emerald-500/20"
           style={{  animationDelay:` ${i * 0.15}s `}}
         >
-          {/* Icon Bubble */}
+
           <div className="w-20 h-20 flex items-center justify-center 
             rounded-full mb-6 text-4xl bg-gradient-to-br 
             from-emerald-400/30 to-green-500/20 
@@ -51,17 +49,14 @@ const Experience = () => {
             {exp.icon}
           </div>
 
-          {/* Title */}
           <h3 className="text-2xl font-semibold text-white mb-3 tracking-wide">
             {exp.title}
           </h3>
 
-          {/* Description */}
           <p className="text-gray-400 text-base leading-relaxed">
             {exp.desc}
           </p>
 
-          {/* Hover Glow Line */}
           <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 bg-emerald-400 
             group-hover:w-1/2 transition-all duration-500 rounded-full" />
         </div>
@@ -69,7 +64,6 @@ const Experience = () => {
     </div>
   </div>
 
-  {/* Background soft light effect */}
   <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.15),transparent_70%)] pointer-events-none"></div>
 </section>
   )
