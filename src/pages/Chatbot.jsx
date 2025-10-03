@@ -12,7 +12,6 @@ const Chatbot = () => {
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [currentMonastery, setCurrentMonastery] = useState(null);
   const chatEndRef = useRef(null);
 
   // Auto scroll
@@ -20,7 +19,6 @@ const Chatbot = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Send handler
   const handleSend = async () => {
     if (!input.trim()) return;
 
@@ -28,43 +26,23 @@ const Chatbot = () => {
     setIsTyping(true);
 
     try {
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      // const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
-      // System prompt for better formatting
-      const systemPrompt = `
-You are LamaBot AI, a knowledgeable monk guiding visitors about the monasteries of Sikkim.
-Answer in a warm, spiritual, yet informative tone.  
-- Use *bold* for important monastery names or key facts.  
-- Break answers into short paragraphs or bullet points for readability.  
-- Keep answers clear, concise, and welcoming.  
-- If asked about history, festivals, or architecture, provide factual yet simple explanations.  
-      `;
-
-      const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [
-              // { parts: [{ text: systemPrompt }] },
-              { parts: [{ text: input }] },
-            ],
-          }),
-        }
-      );
+      const res = await fetch(`http://localhost:3000/api/chatbot`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: input }), // must match backend
+      });
 
       const data = await res.json();
+
       const botReply =
-        data.candidates?.[0]?.content.parts?.[0]?.text ||
-        "🙏 Sorry, I couldn't fetch an answer right now.";
+        data.reply || "🙏 Sorry, I couldn't fetch an answer right now.";
 
       setTimeout(() => {
         setMessages((prev) => [...prev, { sender: "bot", text: botReply }]);
         setIsTyping(false);
       }, 800);
-
-      setCurrentMonastery(null);
     } catch (err) {
       console.error("Error:", err);
       setTimeout(() => {
@@ -72,12 +50,11 @@ Answer in a warm, spiritual, yet informative tone.
           ...prev,
           {
             sender: "bot",
-            text: "🙏 Something went wrong connecting to Gemini. Please try again.",
+            text: "🙏 Something went wrong connecting to the server. Please try again.",
           },
         ]);
         setIsTyping(false);
       }, 800);
-      setCurrentMonastery(null);
     }
 
     setInput("");
@@ -85,7 +62,6 @@ Answer in a warm, spiritual, yet informative tone.
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-slate-900 to-gray-800 flex items-center justify-center p-6">
-      {/* Chatbot Card */}
       <div className="w-full max-w-3xl h-[80vh] flex flex-col rounded-2xl overflow-hidden shadow-2xl border border-amber-800/30 bg-slate-900/80 backdrop-blur-xl">
         
         {/* Header */}
@@ -116,18 +92,15 @@ Answer in a warm, spiritual, yet informative tone.
           {messages.map((msg, idx) => (
             <div
               key={idx}
-              className={`flex ${
-                msg.sender === "user" ? "justify-end" : "justify-start"
-              }`}
+              className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`max-w-xs md:max-w-md px-5 py-3 rounded-2xl shadow-md prose prose-sm prose-invert
-                  ${msg.sender === "user"
+                className={`max-w-xs md:max-w-md px-5 py-3 rounded-2xl shadow-md prose prose-sm prose-invert ${
+                  msg.sender === "user"
                     ? "bg-amber-600 text-white rounded-br-none"
                     : "bg-slate-700 text-slate-100 rounded-bl-none border border-amber-800/20"
-                  }`}
+                }`}
               >
-                {/* Render Markdown for better formatting */}
                 <ReactMarkdown>{msg.text}</ReactMarkdown>
               </div>
             </div>

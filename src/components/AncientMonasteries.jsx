@@ -117,7 +117,7 @@ const AncientMonasteries = () => {
 
                   <div className="flex items-center justify-between text-sm text-gray-400 mb-4">
                     <span className="flex items-center">
-                      <span className="mr-2">🏔️</span>
+                      <span className="mr-2">🏔</span>
                       {monastery.altitude}
                     </span>
                     <span className="flex items-center">

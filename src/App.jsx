@@ -11,6 +11,8 @@ import Chatbot from "./pages/Chatbot";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Team from "./pages/team";
+
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
           <Route path="/digital-archives" element={<DigitalArchives />} />
           <Route path="/cultural-calender" element={<CulturalCalender />} />
           <Route path="/booking" element={<Booking />} />
+          <Route path="/team" element={<Team />} />
         </Route>
 
         <Route path="/chatbot" element={<Chatbot />} />
