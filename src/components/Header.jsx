@@ -56,7 +56,7 @@ const Header = () => {
           </li>
           <li>
             <Link to="/booking" className="text-gray-300 hover:text-purple-400 transition">
-              Booking
+              Trip Planner
             </Link>
           </li>
           <li>
@@ -133,7 +133,7 @@ const Header = () => {
             className="block text-gray-300 hover:text-purple-400"
             onClick={() => setIsOpen(false)}
           >
-            Booking
+            Trip Planner
           </Link>
           <Link
             to="/chatbot"
