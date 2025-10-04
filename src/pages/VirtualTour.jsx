@@ -10,6 +10,10 @@ const VirtualTour = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+      
+  useEffect(() => {
     const fetchTours = async () => {
       try {
         const data = await monasteryData();

@@ -16,6 +16,10 @@ const DigitalArchives = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const navigate = useNavigate();
 
+  useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+
   // ✅ Fetch archives data
   useEffect(() => {
     const fetchArchives = async () => {
