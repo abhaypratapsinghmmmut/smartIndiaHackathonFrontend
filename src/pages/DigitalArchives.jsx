@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { archivesData } from "../apiCalls/archives";
-import {
-  Search,
-  Filter,
-  Calendar,
-  MapPin,
-  RotateCcw,
-  X,
-} from "lucide-react";
+import { Filter, RotateCcw, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const DigitalArchives = () => {
@@ -21,9 +14,9 @@ const DigitalArchives = () => {
     keyword: "",
   });
   const [selectedItem, setSelectedItem] = useState(null);
-
   const navigate = useNavigate();
 
+  // ✅ Fetch archives data
   useEffect(() => {
     const fetchArchives = async () => {
       try {
@@ -32,24 +25,76 @@ const DigitalArchives = () => {
       } catch (err) {
         console.error("Error fetching archives:", err);
       } finally {
-        setLoading(false);
+        // Add a small delay for smoother transition
+        setTimeout(() => setLoading(false), 1000);
       }
     };
-
     fetchArchives();
   }, []);
 
-  if (loading)
-    return <p className="text-center text-white">Loading archives...</p>;
-
+  // ✅ Handle filter changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleViewDetails = (item) => setSelectedItem(item);
-  const closeModal = () => setSelectedItem(null);
+  // ✅ Animated Loading Screen
+  if (loading) {
+    const loaderVariants = {
+      animate: {
+        opacity: [0.6, 1, 0.6],
+        y: [0, -8, 0],
+        rotate: [0, 2, -2, 0],
+        transition: {
+          duration: 2,
+          ease: "easeInOut",
+          repeat: Infinity,
+        },
+      },
+    };
 
+    return (
+      <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center px-6">
+        <motion.h2
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+          className="text-4xl font-bold mb-10 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-400 to-rose-400"
+        >
+          Loading Digital Archives...
+        </motion.h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-7xl">
+          {[...Array(8)].map((_, i) => (
+            <motion.div
+              key={i}
+              variants={loaderVariants}
+              animate="animate"
+              className="bg-gray-800 rounded-lg border border-gray-700/60 overflow-hidden"
+              style={{ animationDelay: `${i * 0.1}s` }}
+            >
+              <div className="h-40 w-full bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 bg-[length:200%_100%] animate-[shimmer_1.8s_infinite]" />
+              <div className="p-4 space-y-3">
+                <div className="h-5 bg-gray-700 rounded w-3/4 animate-pulse" />
+                <div className="h-4 bg-gray-700 rounded w-full animate-pulse" />
+                <div className="h-4 bg-gray-700 rounded w-2/3 animate-pulse" />
+                <div className="h-9 bg-gray-700 rounded mt-4 animate-pulse" />
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <style>{`
+          @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  // ✅ Filtered archives
   const filteredArchives = archives.filter((item) => {
     return (
       (filters.contentType === "" ||
@@ -58,13 +103,16 @@ const DigitalArchives = () => {
         item.era.toLowerCase().includes(filters.era.toLowerCase())) &&
       (filters.monastery === "" ||
         item.monastery
-          .toLowerCase()
+          ?.toLowerCase()
           .includes(filters.monastery.toLowerCase())) &&
       (filters.keyword === "" ||
         item.title.toLowerCase().includes(filters.keyword.toLowerCase()) ||
         item.description.toLowerCase().includes(filters.keyword.toLowerCase()))
     );
   });
+
+  const handleViewDetails = (item) => setSelectedItem(item);
+  const closeModal = () => setSelectedItem(null);
 
   return (
     <div className="bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white font-sans min-h-screen flex">
