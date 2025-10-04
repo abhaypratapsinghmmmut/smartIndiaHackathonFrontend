@@ -106,12 +106,12 @@ const Home = () =>  {
     </video>
 
     {/* Fallback image */}
-    <img
+    {/* <img
       src="https://picsum.photos/1920/1080?random=7"
       alt="Monastery landscape"
       className="w-full h-full object-cover"
       style={{ display: "none" }}
-    />
+    /> */}
 
     {/* black effect on the front page */}
     <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/70"></div>
